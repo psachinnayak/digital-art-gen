@@ -1,0 +1,17 @@
+html, body {
+    margin:0px;
+    width:100%;
+    height:100%;
+    background-color: ghostwhite;
+    font-size: 16px;
+}
+.drawing-canvas{
+
+    width:100%;
+    height:100%;
+ }
+ textarea{
+     border-radius: 3px;
+     margin:1.0rem;
+ }
+
