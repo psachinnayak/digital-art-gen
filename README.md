@@ -1,2 +1,7 @@
 # digital-art-gen
-Art generator by using JS Functions
+
+Attempting digital art using JS functions.
+
+This is being published  at http://digital-art.sachinnayak.info/
+
+Currently this Repo is publicly readable. 
