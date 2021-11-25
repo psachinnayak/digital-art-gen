@@ -26,7 +26,7 @@
 
     function createFunction(functionBodyContents) {
 
-        
+
         // Function should accept a parameter called 
         // x -> the x co-ordinate
 
@@ -69,18 +69,34 @@
             // We will clear the canvas before drawing.
             clearDrawing();
             let prevY = -1;
+
+            // Inspired from https://stackoverflow.com/questions/7812514/drawing-a-dot-on-html5-canvas
+            let ctx = cnvsDrawing.getContext("2d");
+            let canvasData = ctx.getImageData(0, 0, cnvsDrawing.width, cnvsDrawing.height);
+            function drawPixel(x, y, r, g, b, a) {
+                var index = (x + y * cnvsDrawing.width) * 4;
+                canvasData.data[index + 0] = r;
+                canvasData.data[index + 1] = g;
+                canvasData.data[index + 2] = b;
+                canvasData.data[index + 3] = a;
+            }
+
+
             for (let x = 0; x < 100; x++) {
                 let { r, g, b, y } = drawerFunction(x, prevY);
                 prevY = y;
-                console.log(x,y);
+                drawPixel(x, y, r, g, b, 255);
+                // We ll later on put it one dot at a time, to make it look animated. Now we ll just draw the points with no timegap between each point.
+                console.log(x,y,r,g,b,255);
             }
-
+            ctx.putImageData(canvasData, 0, 0);
 
         }
     }
 
     function clearDrawing() {
-
+        let ctx = cnvsDrawing.getContext("2d");
+        ctx.clearRect(0, 0, cnvsDrawing.width, cnvsDrawing.height);
     }
 
 
