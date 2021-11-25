@@ -57,8 +57,8 @@
 
     function executeDrawing() {
         let drawerFunction = null;
-        try {
-            drawerFunction = createFunction(txtFunctionBody.innerHTML);
+        try { 
+            drawerFunction = createFunction(txtFunctionBody.value);
         }
         catch (err) {
             console.error("Error creating function ", err);
