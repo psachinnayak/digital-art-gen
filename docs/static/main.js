@@ -70,28 +70,41 @@
             clearDrawing();
             let prevY = -1;
 
-            // Inspired from https://stackoverflow.com/questions/7812514/drawing-a-dot-on-html5-canvas
-            let ctx = cnvsDrawing.getContext("2d");
-            let canvasData = ctx.getImageData(0, 0, cnvsDrawing.width, cnvsDrawing.height);
-            function drawPixel(x, y, r, g, b, a) {
-                var index = (x + y * cnvsDrawing.width) * 4;
-                canvasData.data[index + 0] = r;
-                canvasData.data[index + 1] = g;
-                canvasData.data[index + 2] = b;
-                canvasData.data[index + 3] = a;
-            }
 
+            let pixelsToDraw = [];
 
             for (let x = 0; x < 100; x++) {
                 let { r, g, b, y } = drawerFunction(x, prevY);
                 prevY = y;
-                drawPixel(x, y, r, g, b, 255);
-                // We ll later on put it one dot at a time, to make it look animated. Now we ll just draw the points with no timegap between each point.
-                console.log(x,y,r,g,b,255);
+                // drawPixel(x, y, r, g, b, 255);
+                pixelsToDraw.push({ x, r, g, b, y });
             }
-            ctx.putImageData(canvasData, 0, 0);
+            drawOnCanvas(pixelsToDraw);
 
         }
+    }
+
+
+    function drawOnCanvas(pixelsToDraw) {
+
+        // Inspired from https://stackoverflow.com/questions/7812514/drawing-a-dot-on-html5-canvas
+        let ctx = cnvsDrawing.getContext("2d");
+        let canvasData = ctx.getImageData(0, 0, cnvsDrawing.width, cnvsDrawing.height);
+        function drawPixel(x, y, r, g, b) {
+            var index = (x + y * cnvsDrawing.width) * 4;
+            canvasData.data[index + 0] = r;
+            canvasData.data[index + 1] = g;
+            canvasData.data[index + 2] = b;
+            canvasData.data[index + 3] = 255; // Alpha of 255 so that zero opacity.
+        }
+ 
+        // We ll later on put it one dot at a time, to make it look animated. Now we ll just draw the points with no timegap between each point.
+        pixelsToDraw.forEach(({ x, y, r, g, b }) => {
+            console.log("Drawing Pixel at ", x, y, r, g, b, 255)
+            drawPixel(x, y, r, g, b);
+        });
+
+        ctx.putImageData(canvasData, 0, 0);
     }
 
     function clearDrawing() {
